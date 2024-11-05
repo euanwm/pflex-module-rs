@@ -1,0 +1,9 @@
+[package]
+name = "pflex-module-rs"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+log = "0.4.22"
+strum = "0.26.3"
+strum_macros = "0.26.4"
