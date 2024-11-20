@@ -35,7 +35,6 @@ mod pflex_test {
 
     #[test]
     fn open_close_gripper() {
-        env::set_var("ROBOT_IP", "10.1.4.23");
         let robot_ip = env!("ROBOT_IP");
         if robot_ip.contains("0.0.0.0") {
             panic!("Please set ROBOT_IP env variable...")
@@ -50,7 +49,6 @@ mod pflex_test {
 
     #[test]
     fn move_rail() {
-        env::set_var("ROBOT_IP", "10.1.4.23");
         let robot_ip = env!("ROBOT_IP");
         if robot_ip.contains("0.0.0.0") {
             panic!("Please set ROBOT_IP env variable")
@@ -73,7 +71,6 @@ mod pflex_test {
 
     #[test]
     fn get_position() {
-        env::set_var("ROBOT_IP", "10.1.4.23");
         let robot_ip = env!("ROBOT_IP");
         if robot_ip.contains("0.0.0.0") {
             panic!("Please set ROBOT_IP env variable")
@@ -85,7 +82,6 @@ mod pflex_test {
 
     #[test]
     fn move_to_position() {
-        env::set_var("ROBOT_IP", "10.1.4.23");
         let robot_ip = env!("ROBOT_IP");
         if robot_ip.contains("0.0.0.0") {
             panic!("Please set ROBOT_IP env variable")
