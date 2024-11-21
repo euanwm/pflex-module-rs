@@ -1,8 +1,5 @@
-mod enums;
-mod error_codes;
-mod error_codes_test;
+pub mod enums;
+pub mod error_codes;
 pub mod pflex;
-mod pflex_test;
-mod structs;
-mod tcs_client;
-mod tcs_client_test;
+pub mod structs;
+pub mod tcs_client;
