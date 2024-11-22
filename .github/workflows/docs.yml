@@ -13,12 +13,12 @@ jobs:
       - name: Build the doc
         run: |
           cargo doc --all-features --no-deps
-          echo "<meta http-equiv=refresh content=0;url=pflex-module-rs/index.html>" > target/doc/index.html
+          echo "<meta http-equiv=refresh content=0;url=pflex_module_rs/index.html>" > target/doc/index.html
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3.7.0-8
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./target/doc/pflex_modules_rs
+          publish_dir: ./target/doc/
           destination_dir: .
           full_commit_message: "Upload documentation for current main"
