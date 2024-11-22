@@ -4,21 +4,39 @@ use crate::structs::{EndEffectorPosition, MotionProfile, Waypoint};
 use crate::tcs_client::{TCSClient, TCSCommand};
 use log::{debug, info};
 
+/// Represents the rail on the robot
+/// # Fields
+/// * `exists` - A boolean that indicates whether the rail exists
 #[derive(Debug)]
 pub struct Rail {
     exists: bool,
 }
 
+/// Containts the TCS client and the rail struct
+/// # Fields
+/// * `tcs_client` - A TCSClient instance
+/// * `rail` - A Rail instance
 pub struct PFlexRobot {
     tcs_client: TCSClient,
     rail: Rail,
 }
 
+/// Creates a new PFlexRobot instance and panics if it cannot connect to the robot
+/// # Arguments
+/// * `ip` - A string slice that holds the IP address of the robot
+/// * `has_rail` - A boolean that indicates whether the robot has a rail
 impl PFlexRobot {
     const DEFAULT_ROBOT_INDEX: i32 = 1;
     pub const DEFAULT_EE_PITCH: f64 = 90.0; // Unless you plan on hitting your robot with a hammer...
     pub const DEFAULT_EE_ROLL: f64 = -180.0; // ...then these should be constant throughout
     const GRIPPER_JOINT_NUMBER: i32 = 5;
+
+    /// Creates a new PFlexRobot instance
+    /// # Arguments
+    /// * `ip` - A string slice that holds the IP address of the robot
+    /// * `has_rail` - A boolean that indicates whether the robot has a rail
+    /// # Returns
+    /// * A PFlexRobot instance
     pub fn new(ip: &str, has_rail: bool) -> Self {
         let mut tcs_client = TCSClient::new();
         let is_connected = tcs_client.connect(ip, None);
@@ -33,6 +51,9 @@ impl PFlexRobot {
         }
     }
 
+    /// Polls the robot with a NoOp call to check the connection status
+    /// # Returns
+    /// * A boolean that indicates whether the connection is alive
     pub fn is_connection_alive(&mut self) -> bool {
         info!("is_connection_alive called");
         let res = self
@@ -45,6 +66,10 @@ impl PFlexRobot {
         }
     }
 
+    /// Checks if the robot is attached
+    /// # Returns
+    /// * A boolean that indicates whether the robot is attached
+    /// * A RobotError if the robot is not attached
     pub fn is_robot_attached(&mut self) -> Result<bool, RobotError> {
         info!("is_robot_attached called");
         let res = self
@@ -62,6 +87,10 @@ impl PFlexRobot {
         }
     }
 
+    /// Checks if the robot is homed
+    /// # Returns
+    /// * A boolean that indicates whether the robot is homed
+    /// * A RobotError if the robot is not homed
     pub fn is_robot_home(&mut self) -> Result<bool, RobotError> {
         info!("is_robot_home called");
         let res = self
@@ -73,6 +102,10 @@ impl PFlexRobot {
         }
     }
 
+    /// Attaches to the default robot
+    /// # Returns
+    /// * A RobotError if the robot cannot be attached
+    /// * Ok if the robot is attached
     pub fn attach_robot(&mut self) -> Result<(), RobotError> {
         info!("attach_robot called");
         let res = self.tcs_client.send_command(
@@ -87,14 +120,22 @@ impl PFlexRobot {
         }
     }
 
-    pub fn select_robot(&mut self) {
+    /// Selects the default robot
+    /// * A RobotError if the robot cannot be selected
+    /// * Ok if the robot is selected
+    pub fn select_robot(&mut self) -> Result<(), RobotError> {
         info!("select_robot called");
-        let _res = self.tcs_client.send_command(
+        let res = self.tcs_client.send_command(
             TCSCommand::Select,
             Some(vec![Self::DEFAULT_ROBOT_INDEX.to_string().as_str()]),
             true,
             None,
         );
+
+        match res {
+            Ok(_) => Ok(()),
+            Err(e) => Err(e),
+        }
     }
 
     pub fn create_waypoint(&mut self, waypoint: Waypoint) -> Result<(), RobotError> {
@@ -437,6 +478,7 @@ impl PFlexRobot {
         }
     }
 
+    /// Cleanly disconnects from the robot
     pub fn disconnect(&mut self) {
         // this is also in the Drop trait because I really couldn't be bothered to remember...
         info!("disconnect called");

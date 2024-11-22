@@ -7,6 +7,7 @@ use std::fmt;
 pub type RobotError = String;
 pub type RobotOK = String;
 
+/// ResponseCodes relate to a specific error raised by the robot
 #[derive(Debug, PartialEq, Copy, Clone)]
 pub enum ResponseCodes {
     Success = 0,
@@ -24,6 +25,7 @@ impl ResponseCodes {
         }
     }
 
+    /// Get the value of the response code as a 32-bit integer type
     pub fn value(&self) -> i32 {
         *self as i32
     }

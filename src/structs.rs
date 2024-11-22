@@ -1,5 +1,6 @@
 use crate::pflex::PFlexRobot;
 
+/// Cartesian coordinates for a waypoint including optional rail position
 #[derive(Debug, Clone, PartialEq)]
 pub struct Waypoint {
     pub id: i32,
@@ -29,7 +30,7 @@ impl Waypoint {
         }
     }
 
-    pub fn ee_position(&self) {}
+    /// Converts the Waypoint struct to a Vec<String> payload for use with the TCSClient
     pub fn to_payload(&self) -> Vec<String> {
         vec![
             self.id.to_string(),
@@ -43,6 +44,7 @@ impl Waypoint {
     }
 }
 
+/// Motion profile settings for the robot
 #[derive(Debug, Clone, PartialEq)]
 pub struct MotionProfile {
     pub id: i32,
@@ -69,6 +71,7 @@ impl MotionProfile {
         }
     }
 
+    /// Converts the MotionProfile struct to a Vec<String> payload for use with the TCSClient
     pub fn to_payload(&self) -> Vec<String> {
         vec![
             self.id.to_string(),
@@ -84,6 +87,7 @@ impl MotionProfile {
     }
 }
 
+/// End effector position for the robot
 #[derive(Debug)]
 pub struct EndEffectorPosition {
     pub yaw_mm: f64,
@@ -95,6 +99,7 @@ pub struct EndEffectorPosition {
 }
 
 impl EndEffectorPosition {
+    /// Converts the EndEffectorPosition struct to a Vec<String> payload for use with the TCSClient
     pub fn to_payload(&self) -> Vec<String> {
         vec![
             self.x_mm.to_string(),

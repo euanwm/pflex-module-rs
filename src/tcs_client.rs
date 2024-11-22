@@ -6,6 +6,7 @@ use std::time::Duration;
 
 use crate::error_codes::{ResponseCodes, RobotError};
 
+/// Commands enumerator for the robot API
 #[derive(Debug, PartialEq, Clone)]
 pub enum TCSCommand {
     Mode,
@@ -71,6 +72,7 @@ pub struct TCSClient {
     pub socket: Option<TcpStream>,
 }
 
+/// Creates a new TCSClient instance without an active socket
 impl TCSClient {
     pub(crate) const DEFAULT_TIMEOUT: f64 = 5.0;
     const REQUEST_SEPARATOR: &'static str = "\n";
@@ -82,6 +84,10 @@ impl TCSClient {
         TCSClient { socket: None }
     }
 
+    /// Attempts to connect to the specified robot
+    /// # Arguments
+    /// * `ip` - IP address of the robot
+    /// * `timeout` - Optional timeout setting for all socket read/write attempts
     pub fn connect(&mut self, ip: &str, timeout: Option<f64>) -> Result<(), std::io::Error> {
         let timeout = timeout.unwrap_or(TCSClient::DEFAULT_TIMEOUT);
         let addr = format!("{}:{}", ip, Self::TCS_SERVER_PORT);
@@ -102,6 +108,12 @@ impl TCSClient {
         }
     }
 
+    /// Generates and sends the command payload to the robot
+    /// # Arguments
+    /// * `command` - Selected command to run from the TCSCommand enum
+    /// * `command_args` - Optional command arguments
+    /// * `wait_for_response` - A boolean option should any commands not require waiting for a response
+    /// * `read_timeout` - Optional argument to set the read timeout on the socket
     pub fn send_command<'a>(
         &mut self,
         command: TCSCommand,
@@ -194,6 +206,7 @@ impl TCSClient {
         Ok(collated_response)
     }
 
+    /// Closes the socket only
     pub fn disconnect(&mut self) -> Result<(), std::io::Error> {
         // this only closes the socket, it doesn't tell the robot that you're disconnecting
         // that'll need to be done by calling the exit command
