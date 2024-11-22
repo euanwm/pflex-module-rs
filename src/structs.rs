@@ -30,7 +30,7 @@ impl Waypoint {
         }
     }
 
-    /// Converts the Waypoint struct to a Vec<String> payload for use with the TCSClient
+    /// Converts the Waypoint struct to a Vec\<String\> payload for use with the TCSClient
     pub fn to_payload(&self) -> Vec<String> {
         vec![
             self.id.to_string(),
@@ -71,7 +71,7 @@ impl MotionProfile {
         }
     }
 
-    /// Converts the MotionProfile struct to a Vec<String> payload for use with the TCSClient
+    /// Converts the MotionProfile struct to a Vec\<String\> payload for use with the TCSClient
     pub fn to_payload(&self) -> Vec<String> {
         vec![
             self.id.to_string(),
@@ -99,7 +99,7 @@ pub struct EndEffectorPosition {
 }
 
 impl EndEffectorPosition {
-    /// Converts the EndEffectorPosition struct to a Vec<String> payload for use with the TCSClient
+    /// Converts the EndEffectorPosition struct to a Vec\<String\> payload for use with the TCSClient
     pub fn to_payload(&self) -> Vec<String> {
         vec![
             self.x_mm.to_string(),
