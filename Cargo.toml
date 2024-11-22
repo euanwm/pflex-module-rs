@@ -3,7 +3,7 @@ name = "pflex-module-rs"
 description = "An unnofficial API wrapper for the Brooks Automation PreciseFlex series robot"
 version = "0.1.0"
 edition = "2021"
-license = "GNU"
+license = "GPL-3.0-or-later"
 repository = "https://github.com/euanwm/pflex-module-rs"
 
 [dependencies]
