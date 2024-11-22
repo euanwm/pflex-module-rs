@@ -3,6 +3,7 @@ use pflex_module_rs::structs::EndEffectorPosition;
 use std::{env, thread::sleep, time::Duration};
 
 #[test]
+#[ignore = "requires robot"]
 fn check_vitals() {
     let robot_ip = env!("ROBOT_IP");
     if robot_ip.contains("0.0.0.0") {
@@ -13,6 +14,7 @@ fn check_vitals() {
 }
 
 #[test]
+#[ignore = "requires robot"]
 fn enable_freedmode() {
     let robot_ip = env!("ROBOT_IP");
     if !robot_ip.contains("0.0.0.0") {
@@ -23,15 +25,22 @@ fn enable_freedmode() {
 
         // error -1009
         // no robot attached
-        flex_robot.attach_robot();
+        flex_robot.attach_robot().expect("Robot not attached");
 
-        flex_robot.set_free_mode(true);
+        flex_robot
+            .set_free_mode(true)
+            .expect("Failed setting free mode");
+
         sleep(Duration::from_secs(5));
-        flex_robot.set_free_mode(false);
+
+        flex_robot
+            .set_free_mode(false)
+            .expect("Failed setting free mode")
     }
 }
 
 #[test]
+#[ignore = "requires robot"]
 fn open_close_gripper() {
     let robot_ip = env!("ROBOT_IP");
     if robot_ip.contains("0.0.0.0") {
@@ -46,6 +55,7 @@ fn open_close_gripper() {
 }
 
 #[test]
+#[ignore = "requires robot"]
 fn move_rail() {
     let robot_ip = env!("ROBOT_IP");
     if robot_ip.contains("0.0.0.0") {
@@ -54,7 +64,7 @@ fn move_rail() {
     let mut pf_robot = PFlexRobot::new(robot_ip, true);
     let go_to_rail_position = 300.00;
 
-    pf_robot.is_robot_attached();
+    pf_robot.is_robot_attached().expect("Failed to attaching");
     let home_robot = pf_robot.get_home();
     if home_robot.is_err() {
         print!("Robot error: {}", home_robot.unwrap_err())
@@ -68,6 +78,7 @@ fn move_rail() {
 }
 
 #[test]
+#[ignore = "requires robot"]
 fn get_position() {
     let robot_ip = env!("ROBOT_IP");
     if robot_ip.contains("0.0.0.0") {
@@ -79,6 +90,7 @@ fn get_position() {
 }
 
 #[test]
+#[ignore = "requires robot"]
 fn move_to_position() {
     let robot_ip = env!("ROBOT_IP");
     if robot_ip.contains("0.0.0.0") {
@@ -86,10 +98,13 @@ fn move_to_position() {
     }
     let mut pf_robot = PFlexRobot::new(robot_ip, true);
     pf_robot.set_power(true);
-    pf_robot.is_robot_attached();
+    let attached = pf_robot.is_robot_attached();
+    if attached.is_err() {
+        panic!("Robot error: {}", attached.unwrap_err())
+    }
     let homed = pf_robot.get_home();
     if homed.is_err() {
-        print!("Robot error: {}", homed.unwrap_err())
+        panic!("Robot error: {}", homed.unwrap_err())
     }
     let position = EndEffectorPosition {
         yaw_mm: -94.612,
