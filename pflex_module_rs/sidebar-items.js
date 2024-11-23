@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"mod":["enums","error_codes","pflex","structs","tcs_client"]};
+window.SIDEBAR_ITEMS = {"mod":["commands","enums","error_codes","pflex","structs","tcs_client"]};

@@ -501,10 +501,12 @@
 <a href="#501" id="501">501</a>
 <a href="#502" id="502">502</a>
 <a href="#503" id="503">503</a>
-</pre></div><pre class="rust"><code><span class="kw">use </span><span class="kw">crate</span>::enums::ParamIDs;
+<a href="#504" id="504">504</a>
+</pre></div><pre class="rust"><code><span class="kw">use </span><span class="kw">crate</span>::commands::TCSCommand;
+<span class="kw">use </span><span class="kw">crate</span>::enums::ParamIDs;
 <span class="kw">use </span><span class="kw">crate</span>::error_codes::RobotError;
 <span class="kw">use </span><span class="kw">crate</span>::structs::{EndEffectorPosition, MotionProfile, Waypoint};
-<span class="kw">use </span><span class="kw">crate</span>::tcs_client::{TCSClient, TCSCommand};
+<span class="kw">use </span><span class="kw">crate</span>::tcs_client::TCSClient;
 <span class="kw">use </span>log::{debug, info};
 
 <span class="doccomment">/// Represents the rail on the robot

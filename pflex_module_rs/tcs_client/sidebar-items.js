@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"enum":["TCSCommand"],"struct":["TCSClient"]};
+window.SIDEBAR_ITEMS = {"struct":["TCSClient"]};
