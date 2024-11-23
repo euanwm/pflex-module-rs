@@ -1,3 +1,5 @@
+/// API commands
+pub mod commands;
 /// Internal enums
 pub mod enums;
 /// Error response codes

@@ -1,7 +1,8 @@
+use crate::commands::TCSCommand;
 use crate::enums::ParamIDs;
 use crate::error_codes::RobotError;
 use crate::structs::{EndEffectorPosition, MotionProfile, Waypoint};
-use crate::tcs_client::{TCSClient, TCSCommand};
+use crate::tcs_client::TCSClient;
 use log::{debug, info};
 
 /// Represents the rail on the robot
