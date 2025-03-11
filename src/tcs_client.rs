@@ -1,4 +1,4 @@
-use crate::commands::TCSCommand;
+pub use crate::commands::TCSCommand;
 use log::{debug, info};
 use std::io::{Read, Write};
 use std::net::{Shutdown, TcpStream};
