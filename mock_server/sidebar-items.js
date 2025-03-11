@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"fn":["handle_client","main","process_command","robot_loop"],"struct":["RobotState"]};
