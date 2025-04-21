@@ -27,6 +27,8 @@ pub enum TCSCommand {
     SystemSpeed,
     Payload,
     WaitForEOM,
+    Rail,
+    Signal,
 }
 
 impl fmt::Display for TCSCommand {
@@ -56,6 +58,8 @@ impl fmt::Display for TCSCommand {
             TCSCommand::SystemSpeed => "mspeed",
             TCSCommand::Payload => "payload",
             TCSCommand::WaitForEOM => "waitForEOM",
+            TCSCommand::Rail => "rail",
+            TCSCommand::Signal => "sig"
         };
         write!(f, "{}", s)
     }
