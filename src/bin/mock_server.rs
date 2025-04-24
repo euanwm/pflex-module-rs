@@ -50,7 +50,7 @@ impl RobotState {
             free_mode: false,
             system_speed: 50,
             rail_position: Some(0.0),
-            motion_state: "Idle".to_string(),
+            motion_state: 1.to_string(),
             selected_robot: None,
         }
     }
@@ -161,15 +161,23 @@ fn process_command(command: &str, robot_state: Arc<Mutex<RobotState>>) -> String
         "halt" => "0 \r\n".to_string(),
 
         "loc" => {
-            let _state = robot_state.lock().unwrap();
-            "0 1 300.0 0.0 150.0 0.0 90.0 -180.0\r\n".to_string()
+            let state = &mut robot_state.lock().unwrap();
+            format!(
+                "0 0 0 {} {} {} {} {} {}\r\n",
+                state.position[0],
+                state.position[1],
+                state.position[2],
+                state.position[3],
+                state.position[4],
+                state.position[5]
+            )
         }
 
         "locXYZ" => {
             if parts.len() < 8 {
                 "-1 Insufficient parameters\r\n".to_string()
             } else {
-                "0 \r\n".to_string()
+                format!("0 {}\r\n", parts[2..8].join(" "))
             }
         }
 
@@ -191,12 +199,20 @@ fn process_command(command: &str, robot_state: Arc<Mutex<RobotState>>) -> String
         }
 
         "movec" => {
-            let state = robot_state.lock().unwrap();
+            let state = &mut robot_state.lock().unwrap();
             if !state.power {
                 "-1046 Robot power not enabled\r\n".to_string()
             } else if parts.len() < 7 {
                 "-1 Insufficient parameters\r\n".to_string()
             } else {
+                state.position = [
+                    parts[2].parse().unwrap_or(0.0),
+                    parts[3].parse().unwrap_or(0.0),
+                    parts[4].parse().unwrap_or(0.0),
+                    parts[5].parse().unwrap_or(0.0),
+                    parts[6].parse().unwrap_or(0.0),
+                    parts[7].parse().unwrap_or(0.0),
+                ];
                 "0 \r\n".to_string()
             }
         }
@@ -322,6 +338,14 @@ fn process_command(command: &str, robot_state: Arc<Mutex<RobotState>>) -> String
             // Simulate a short delay before responding
             thread::sleep(Duration::from_millis(500));
             "0 \r\n".to_string()
+        }
+
+        "rail" => {
+            "0 \r\n".to_string()
+        }
+
+        "sig" => {
+            "0 1 \r\n".to_string()
         }
 
         "exit" => "0 \r\n".to_string(),
